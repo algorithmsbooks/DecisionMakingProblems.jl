@@ -18,12 +18,18 @@ makedocs(
            ],
 
         "MDP Models" => [
+            "hexworld.md",
+            "cart_pole.md",
             "mountain_car.md",
+            "simple_lqr.md",
+            "collision_avoidance.md"
            ],
 
 
         "POMDP Models" => [
             "crying_baby.md",
+            "machine_replacement.md",
+            "catch.md"
            ],
 
         # "Concepts" => [
