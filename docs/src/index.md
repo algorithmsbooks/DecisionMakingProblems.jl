@@ -1,10 +1,7 @@
-# [DecisionMakingProblems.jl](https://github.com/JuliaPOMDP/POMDPs.jl)
+# [DecisionMakingProblems.jl](https://github.com/algorithmsbooks/DecisionMakingProblems.jl)
 *A Julia interface to access MDP and POMDP models which appeared in Algorithms for Decision Making.*
 
 ## Available Packages
-
-The POMDPs.jl package contains the interface used for accessing Markov decision processes (MDPs) and partially
-observable Markov decision processes (POMDPs) in the Julia programming language.
 
 
 ### MDP Models

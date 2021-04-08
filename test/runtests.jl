@@ -2,6 +2,7 @@ using DecisionMakingProblems
 # using PGFPlots
 using Test
 using Random
+using LinearAlgebra
 
 # @assert success(`lualatex -v`)
 # using NBInclude
@@ -23,15 +24,15 @@ const p = DecisionMakingProblems
     p.get_mdp_type(m)
 end
 @testset "collision_avoidance.jl" begin
-    # m = p.CollisionAvoidanceMDP()
-    # distrib = p.CollisionAvoidanceStateDistribution()
-    # s = p.rand(distrib)
-    # simple_pol = p.SimpleCollisionAvoidancePolicy()
-    # optimal_pol = p.OptimalCollisionAvoidancePolicy()
-    # @test length(p.vec(p.transition(m, s, optimal_pol(s)))) == 4
-    # @test p.is_terminal(m, s) == p.vec(s)[4] < 0.0
-    # @test p.reward(p.transition(m, s, optimal_pol(s))) <= 0
-    # p.CollisionAvoidanceValueFunction(m, simple_pol)
+    m = p.CollisionAvoidanceMDP()
+    distrib = p.CollisionAvoidanceStateDistribution()
+    s = p.rand(distrib)
+    simple_pol = p.SimpleCollisionAvoidancePolicy()
+    optimal_pol = p.OptimalCollisionAvoidancePolicy()
+    @test length(p.vec(p.transition(m, s, optimal_pol(s)))) == 4
+    @test p.is_terminal(m, s) == p.vec(s)[4] < 0.0
+    @test p.reward(p.transition(m, s, optimal_pol(s))) <= 0
+    p.CollisionAvoidanceValueFunction(m, simple_pol)
 end
 
 @testset "hexworld.jl" begin
