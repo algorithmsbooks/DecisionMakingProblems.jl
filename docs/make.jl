@@ -32,6 +32,11 @@ makedocs(
             "catch.md"
            ],
 
+        "Simple Games" => [
+            "prisoners_dilemma.md",
+            "rock_paper_scissors.md"
+           ],
+
         # "Concepts" => [
         #     "concepts.md"
         #    ],

@@ -15,3 +15,9 @@ Pages = [ "hexworld.md", "cart_pole.md", "mountain_car.md", "simple_lqr.md", "co
 ```@contents
 Pages = [ "crying_baby.md", "machine_replacement.md", "catch.md" ]
 ```
+
+### Simple Games
+
+```@contents
+Pages = [ "prisoners_dilemma.md", "rock_paper_scissors.md" ]
+```

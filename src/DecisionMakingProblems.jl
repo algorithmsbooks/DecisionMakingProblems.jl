@@ -6,7 +6,7 @@ using Random
 using LinearAlgebra
 using GridInterpolations
 
-import Base: ==, rand
+import Base: ==, rand, vec
 
 include("support_code.jl")
 

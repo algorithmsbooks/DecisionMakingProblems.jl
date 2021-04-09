@@ -30,9 +30,9 @@ end
     s = p.rand(distrib)
     simple_pol = p.SimpleCollisionAvoidancePolicy()
     optimal_pol = p.OptimalCollisionAvoidancePolicy()
-    @test length(p.vec(p.transition(m, s, optimal_pol(s)))) == 4
-    @test p.is_terminal(m, s) == p.vec(s)[4] < 0.0
-    @test p.reward(p.transition(m, s, optimal_pol(s))) <= 0
+    @test length(p.vec(rand(p.transition(m, s, optimal_pol(s))))) == 4
+    @test p.is_terminal(m, s) == (p.vec(s)[4] < 0.0)
+    @test p.reward(m, rand(p.transition(m, s, optimal_pol(s))), rand(m.𝒜)) <= 0
     p.CollisionAvoidanceValueFunction(m, simple_pol)
 end
 
@@ -129,9 +129,8 @@ end
 @testset "prisoners_dilemma.jl" begin
     m = p.PrisonersDilemmaSimpleGame()
     @test p.n_agents(m) == 2
-    @test length(p.ordered_actions(m, 0)) == 2 && length(p.joint_ordered_actions)
-    @test p.n_actions(m, 0) == 2 && p.n_joint_actions(m) == 4
+    @test length(p.ordered_actions(m, rand(1:2))) == 2 && length(p.ordered_joint_actions(m))
+    @test p.n_actions(m, rand(1:2)) == 2 && p.n_joint_actions(m) == 4
     @test p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 0.0
     @test p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [0.0, 0.0]
-    p.get_mdp_type(m)
 end
