@@ -1,5 +1,7 @@
 ######################################################################################################
 # SetCategorical
+using LinearAlgebra
+
 
 struct SetCategorical{S}
     elements::Vector{S} # Set elements (could be repeated)
