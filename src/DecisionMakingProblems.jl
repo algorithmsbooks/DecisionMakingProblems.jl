@@ -4,6 +4,7 @@ using Distributions
 using Parameters
 using Random
 using LinearAlgebra
+using GridInterpolations
 
 import Base: ==, rand
 

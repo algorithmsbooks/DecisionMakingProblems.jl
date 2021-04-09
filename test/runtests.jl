@@ -3,6 +3,7 @@ using DecisionMakingProblems
 using Test
 using Random
 using LinearAlgebra
+using GridInterpolations
 
 # @assert success(`lualatex -v`)
 # using NBInclude

@@ -1,6 +1,7 @@
 ######################################################################################################
 # SetCategorical
 using LinearAlgebra
+using GridInterpolations
 
 
 struct SetCategorical{S}
