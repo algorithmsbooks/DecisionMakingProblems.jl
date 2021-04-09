@@ -123,3 +123,14 @@ end
     @test p.reward(m, rand(1:4), rand(1:10)) >= 0
     p.get_pomdp_type(m)
 end
+
+
+@testset "prisoners_dilemma.jl" begin
+    m = p.PrisonersDilemmaSimpleGame()
+    @test p.n_agents(m) == 2
+    @test length(p.ordered_actions(m, 0)) == 2 && length(p.joint_ordered_actions)
+    @test p.n_actions(m, 0) == 2 && p.n_joint_actions(m) == 4
+    @test p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 0.0
+    @test p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [0.0, 0.0]
+    p.get_mdp_type(m)
+end
