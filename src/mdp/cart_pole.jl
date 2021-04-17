@@ -82,7 +82,7 @@ function reward(mdp::CartPole, s::CartPoleState, a::Int)
     end
 end
 
-function get_mdp_type(mdp::CartPole; γ::Float64=mdp.γ)
+function MPD(mdp::CartPole; γ::Float64=mdp.γ)
     return MDP(
             γ,
             nothing, # no ordered states

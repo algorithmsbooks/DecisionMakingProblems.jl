@@ -19,12 +19,12 @@ makedocs(
 
         "MDP Models" => [
             "hexworld.md",
+            "2048.md",
             "cart_pole.md",
             "mountain_car.md",
             "simple_lqr.md",
             "collision_avoidance.md"
            ],
-
 
         "POMDP Models" => [
             "crying_baby.md",
@@ -34,9 +34,21 @@ makedocs(
 
         "Simple Games" => [
             "prisoners_dilemma.md",
-            "rock_paper_scissors.md"
+            "rock_paper_scissors.md",
+            "travelers.md"
            ],
 
+        "POMG Models" => [
+            "multicaregiver.md",
+           ],
+
+        "Markov Game" => [
+            "predator_prey.md",
+           ],
+
+        "Dec-POMDP" => [
+            "collab_predator_prey.md",
+           ],
         # "Concepts" => [
         #     "concepts.md"
         #    ],
