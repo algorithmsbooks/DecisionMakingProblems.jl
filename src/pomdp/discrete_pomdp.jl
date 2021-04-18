@@ -21,7 +21,7 @@ reward(pomdp::DiscretePOMDP, s::Int, a::Int) = pomdp.R[s,a]
 
 reward(pomdp::DiscretePOMDP, b::Vector{Float64}, a::Int) = sum(reward(pomdp,s,a)*b[s] for s in ordered_states(pomdp))
 
-function get_pomdp_type(pomdp; γ::Float64=discount(pomdp))
+function POMDP(pomdp; γ::Float64=discount(pomdp))
     return POMDP(
         γ,
         ordered_states(pomdp),

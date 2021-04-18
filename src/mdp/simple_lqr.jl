@@ -12,7 +12,7 @@ function transition(mdp::LqrMDP, s::Float64, a::Float64)
 end
 reward(mdp::LqrMDP, s::Float64, a::Float64) = -s^2
 
-function get_mdp_type(mdp::LqrMDP; γ::Float64=mdp.γ)
+function MDP(mdp::LqrMDP; γ::Float64=mdp.γ)
     return MDP(
             γ,
             nothing, # continuous state

@@ -40,7 +40,7 @@ function reward(mdp::MountainCar, s::Vector{Float64}, a::Int)
     end
 end
 
-function get_mdp_type(mdp::MountainCar; γ::Float64=mdp.γ)
+function MDP(mdp::MountainCar; γ::Float64=mdp.γ)
     return MDP(
             γ,
             nothing, # no ordered states

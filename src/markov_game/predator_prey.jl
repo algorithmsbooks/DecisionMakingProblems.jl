@@ -51,7 +51,7 @@ function joint_reward(mg::PredatorPreyHexWorldMG, s, a)
     return [reward(mg, i, s, a) for i in 1:n_agents(mg)]
 end
 
-function get_mg_type(mg::PredatorPreyHexWorldMG)
+function MG(mg::PredatorPreyHexWorldMG)
     return MG(
         mg.hexWorldDiscreteMDP.γ,
         vec(collect(1:n_agents(mg))),

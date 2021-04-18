@@ -6,7 +6,7 @@ ordered_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = [:rock, :pape
 ordered_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = vec(collect(Iterators.product([ordered_actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
 
 n_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = length(ordered_joint_actions(simpleGame))
-n_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = length(ordered_actions(simpleGame))
+n_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = length(ordered_actions(simpleGame, i))
 
 function reward(simpleGame::RockPaperScissorsSimpleGame, i::Int, a)
     if i == 1
@@ -38,7 +38,7 @@ function joint_reward(simpleGame::RockPaperScissorsSimpleGame, a)
     return [reward(simpleGame, i, a) for i in 1:n_agents(simpleGame)]
 end
 
-function get_simple_game_type(simpleGame::RockPaperScissorsSimpleGame)
+function SimpleGame(simpleGame::RockPaperScissorsSimpleGame)
     return SimpleGame(
         0.9,
         vec(collect(1:n_agents(simpleGame))),

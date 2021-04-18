@@ -1,4 +1,4 @@
-function generate_catch_pomdp(γ::Float64)
+function Catch(; γ::Float64=0.9)
     Θ = [20,40,60,80] # proficiencies
     𝒜 = collect(10:10:100) # throw distances
 
@@ -40,4 +40,4 @@ function generate_catch_pomdp(γ::Float64)
     return DiscretePOMDP(T, R, O, γ)
 end
 
-const Catch = generate_catch_pomdp(0.9)
+# const Catch = generate_catch_pomdp(0.9)

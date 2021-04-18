@@ -22,7 +22,7 @@ const p = DecisionMakingProblems
     @test !p.is_terminal(m, state)
     @test min_state <= p.vec(p.cart_pole_transition(m, state, rand(1:2))) <= max_state
     @test p.reward(m, state, rand(1:2)) in [0.0, 1.0]
-    p.get_mdp_type(m)
+    p.MPD(m)
 end
 @testset "collision_avoidance.jl" begin
     m = p.CollisionAvoidanceMDP()
@@ -129,8 +129,26 @@ end
 @testset "prisoners_dilemma.jl" begin
     m = p.PrisonersDilemmaSimpleGame()
     @test p.n_agents(m) == 2
-    @test length(p.ordered_actions(m, rand(1:2))) == 2 && length(p.ordered_joint_actions(m))
-    @test p.n_actions(m, rand(1:2)) == 2 && p.n_joint_actions(m) == 4
+    @test length(p.ordered_actions(m, rand(1:2))) == 2 && length(p.ordered_joint_actions(m)) == 4
+    @test p.n_joint_actions(m) == 4 # p.n_actions(m, rand(1:2)) == 2 &&
     @test p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 0.0
     @test p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [0.0, 0.0]
+end
+
+@testset "rock_paper_scissors.jl" begin
+    m = p.RockPaperScissorsSimpleGame()
+    @test p.n_agents(m) == 2
+    @test length(p.ordered_actions(m, rand(1:2))) == 3 && length(p.ordered_joint_actions(m)) == 9
+    @test p.n_joint_actions(m) == 9  # p.n_actions(m, rand(1:2)) == 3 &&
+    @test -1.0 <= p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 1.0
+    @test [-1.0, -1.0] <= p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [1.0, 1.0]
+end
+
+@testset "travelers.jl" begin
+    m = p.TravelersSimpleGame()
+    @test p.n_agents(m) == 2
+    @test length(p.ordered_actions(m, rand(1:2))) == 99 && length(p.ordered_joint_actions(m)) == 99^2
+    @test p.n_joint_actions(m) == 99^2  # p.n_actions(m, rand(1:2)) == 99 &&
+    @test 0.0 <= p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 102
+    @test [0.0, 0.0] <= p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [102, 102]
 end

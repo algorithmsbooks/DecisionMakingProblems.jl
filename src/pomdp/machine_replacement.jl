@@ -14,7 +14,7 @@
 # 10% probability that either breaks down during the manufacture of a product
 # Failed components cause 50% of part being defective
 
-function generate_machine_replacement_pomdp(γ::Float64)
+function MachineReplacement(; γ::Float64 = 1.0)
     T = Array{Float64}(undef, 3, 4, 3)
     R = Array{Float64}(undef, 3, 4)
     O = Array{Float64}(undef, 4, 3, 2)
@@ -86,7 +86,7 @@ function generate_machine_replacement_pomdp(γ::Float64)
     return DiscretePOMDP(T, R, O, γ)
 end
 
-MachineReplacement = generate_machine_replacement_pomdp(1.0)
+# MachineReplacement = generate_machine_replacement_pomdp(1.0)
 
 MACHINE_REPLACEMENT_ACTION_COLORS = Dict(
     1 => "pastelRed",

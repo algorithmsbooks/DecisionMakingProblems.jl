@@ -6,19 +6,19 @@
 
 # Action: Push cart right (1) or left (2)
 
-struct CartPole
-    γ::Float64
-    force_magnitude::Float64
-    pole_length::Float64 # Distance from pole to mass at end of pole
-    mass_cart::Float64
-    mass_pole::Float64
-    gravity::Float64
-    Δt::Float64  # Time to advance by with each step
-    Δx_max::Float64 # Max position deviation
-    Δθ_max::Float64 # Max angular deviation
+@with_kw struct CartPole
+    γ::Float64 = 1.0
+    force_magnitude::Float64 = 10.0
+    pole_length::Float64 = 1.0  # Distance from pole to mass at end of pole
+    mass_cart::Float64 = 1.0
+    mass_pole::Float64 = 0.1
+    gravity::Float64 = 9.8
+    Δt::Float64 = 0.02  # Time to advance by with each step
+    Δx_max::Float64 = 4.8  # Max position deviation
+    Δθ_max::Float64 = deg2rad(24)  # Max angular deviation
 end
 
-const CART_POLE = CartPole(1.0, 10.0, 1.0, 1.0, 0.1, 9.8, 0.02, 4.8, deg2rad(24))
+# const CART_POLE = CartPole(1.0, 10.0, 1.0, 1.0, 0.1, 9.8, 0.02, 4.8, deg2rad(24))
 
 struct CartPoleState
     x::Float64 # cart pos [m]
@@ -82,7 +82,7 @@ function reward(mdp::CartPole, s::CartPoleState, a::Int)
     end
 end
 
-function MPD(mdp::CartPole; γ::Float64=mdp.γ)
+function MDP(mdp::CartPole; γ::Float64=mdp.γ)
     return MDP(
             γ,
             nothing, # no ordered states

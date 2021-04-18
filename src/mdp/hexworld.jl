@@ -136,3 +136,7 @@ function hex_distance(a::Tuple{Int,Int}, b::Tuple{Int,Int})
     bz = -b[1] - b[2]
     return max(abs(a[1] - b[1]), abs(a[2] - b[2]), abs(az - bz))
 end
+
+function DiscreteMDP(mdp::HexWorldMDP)
+    return mdp.mdp
+end

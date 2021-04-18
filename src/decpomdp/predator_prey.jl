@@ -103,7 +103,7 @@ function reward(decpomdp::CollaborativePredatorPreyHexWorldDecPOMDP, s, a)
     return r
 end
 
-function get_decpomdp_type(decpomdp::CollaborativePredatorPreyHexWorldDecPOMDP)
+function DecPOMDP(decpomdp::CollaborativePredatorPreyHexWorldDecPOMDP)
     return DecPOMDP(
         decpomdp.hexWorldDiscreteMDP.γ,
         vec(collect(1:n_agents(decpomdp))),

@@ -122,7 +122,7 @@ end
 
 joint_reward(pomg::BabyPOMG, b::Vector{Float64}, a) = sum(joint_reward(pomg, s, a) * b[s] for s in ordered_states(pomg))
 
-function get_pomg_type(pomg::BabyPOMG)
+function POMG(pomg::BabyPOMG)
     return POMG(
         pomg.babyPOMDP.γ,
         vec(collect(1:n_agents(pomg))),
