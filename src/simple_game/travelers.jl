@@ -3,10 +3,10 @@ struct TravelersSimpleGame end
 n_agents(simpleGame::TravelersSimpleGame) = 2
 
 ordered_actions(simpleGame::TravelersSimpleGame, i::Int) = 2:100
-ordered_joint_actions(simpleGame::TravelersSimpleGame) = vec(collect(Iterators.product([actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
+ordered_joint_actions(simpleGame::TravelersSimpleGame) = vec(collect(Iterators.product([ordered_actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
 
-n_joint_actions(simpleGame::TravelersSimpleGame) = length(joint_actions(simpleGame))
-n_actions(simpleGame::TravelersSimpleGame, i::Int) = length(actions(simpleGame))
+n_joint_actions(simpleGame::TravelersSimpleGame) = length(ordered_joint_actions(simpleGame))
+n_actions(simpleGame::TravelersSimpleGame, i::Int) = length(ordered_actions(simpleGame))
 
 function reward(simpleGame::TravelersSimpleGame, i::Int, a)
     if i == 1

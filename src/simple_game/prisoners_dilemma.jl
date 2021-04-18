@@ -3,10 +3,10 @@ struct PrisonersDilemmaSimpleGame end
 n_agents(simpleGame::PrisonersDilemmaSimpleGame) = 2
 
 ordered_actions(simpleGame::PrisonersDilemmaSimpleGame, i::Int) = [:cooperate, :defect]
-ordered_joint_actions(simpleGame::PrisonersDilemmaSimpleGame) = vec(collect(Iterators.product([actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
+ordered_joint_actions(simpleGame::PrisonersDilemmaSimpleGame) = vec(collect(Iterators.product([ordered_actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
 
-n_joint_actions(simpleGame::PrisonersDilemmaSimpleGame) = length(joint_actions(simpleGame))
-n_actions(simpleGame::PrisonersDilemmaSimpleGame, i::Int) = length(actions(simpleGame))
+n_joint_actions(simpleGame::PrisonersDilemmaSimpleGame) = length(ordered_joint_actions(simpleGame))
+n_actions(simpleGame::PrisonersDilemmaSimpleGame, i::Int) = length(ordered_actions(simpleGame))
 
 function reward(simpleGame::PrisonersDilemmaSimpleGame, i::Int, a)
     if i == 1

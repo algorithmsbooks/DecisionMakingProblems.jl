@@ -3,10 +3,10 @@ struct RockPaperScissorsSimpleGame end
 n_agents(simpleGame::RockPaperScissorsSimpleGame) = 2
 
 ordered_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = [:rock, :paper, :scissors]
-ordered_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = vec(collect(Iterators.product([actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
+ordered_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = vec(collect(Iterators.product([ordered_actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
 
-n_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = length(joint_actions(simpleGame))
-n_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = length(actions(simpleGame))
+n_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = length(ordered_joint_actions(simpleGame))
+n_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = length(ordered_actions(simpleGame))
 
 function reward(simpleGame::RockPaperScissorsSimpleGame, i::Int, a)
     if i == 1
