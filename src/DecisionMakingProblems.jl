@@ -11,22 +11,22 @@ import Base: ==, rand, vec
 
 include("support_code.jl")
 
-include("search/search.jl")
-include("search/hex_world.jl")
+# include("search/search.jl")
+# include("search/hex_world.jl")
 
 include("mdp/mdp.jl")
 include("mdp/discrete_mdp.jl")
-include("mdp/sliding_tile_puzzle.jl")
-include("mdp/gridworld.jl")
+# include("mdp/sliding_tile_puzzle.jl")
+# include("mdp/gridworld.jl")
 include("mdp/hexworld.jl")
-include("mdp/you_get_what_you_bet.jl")
+# include("mdp/you_get_what_you_bet.jl")
 include("mdp/simple_lqr.jl")
 include("mdp/cart_pole.jl")
 include("mdp/mountain_car.jl")
 include("mdp/collision_avoidance.jl")
 
 include("pomdp/pomdp.jl")
-include("pomdp/spelunker_joe.jl")
+# include("pomdp/spelunker_joe.jl")
 include("pomdp/crying_baby.jl")
 include("pomdp/discrete_pomdp.jl")
 include("pomdp/machine_replacement.jl")
