@@ -26,9 +26,9 @@ include("mdp/mountain_car.jl")
 include("mdp/collision_avoidance.jl")
 
 include("pomdp/pomdp.jl")
+include("pomdp/discrete_pomdp.jl")
 # include("pomdp/spelunker_joe.jl")
 include("pomdp/crying_baby.jl")
-include("pomdp/discrete_pomdp.jl")
 include("pomdp/machine_replacement.jl")
 include("pomdp/catch.jl")
 
