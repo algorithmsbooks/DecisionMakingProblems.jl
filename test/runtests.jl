@@ -39,7 +39,7 @@ end
 end
 
 @testset "hexworld.jl" begin
-    m = p.HexWorld
+    m = p.HexWorld()
     hexes = m.hexes
     @test p.n_states(m) == length(hexes) + 1 && p.ordered_states(m) == 1:length(hexes) + 1
     @test p.n_actions(m) == 6 && p.ordered_actions(m) == 1:6
@@ -58,7 +58,7 @@ end
 end
 @testset "simple_lqr.jl" begin
     m = p.LqrMDP()
-    @test p.discount(m) == 0.9
+    @test p.discount(m) == 1.0
     state = p.generate_start_state(m)
     @test -10 <= rand(p.transition(m, state, rand())) <= 10
     @test p.reward(m, state, rand()) <= 0
@@ -68,7 +68,7 @@ end
 @testset "mountain_car.jl" begin
     m = p.MountainCar()
     @test p.n_actions(m) == 3 && p.ordered_actions(m) == [1, 2, 3]
-    @test p.discount(m) == 0.9
+    @test p.discount(m) == 1.0
     state_min = [-1.2, -0.07]
     state_max = [0.6, 0.07]
     start_state = p.generate_start_state(m)
@@ -94,7 +94,7 @@ end
 @testset "machine_replacement.jl" begin
     # m = p.generate_machine_replacement_pomdp(1.0)
     mdp = p.MachineReplacement()
-    m = p.DiscreteMDP(mdp)
+    m = p.MachineReplacement(mdp)
     @test p.n_states(m) == 3 && p.ordered_states(m) == 1:3
     @test p.n_actions(m) == 4 && p.ordered_actions(m) == 1:4
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == 1:2

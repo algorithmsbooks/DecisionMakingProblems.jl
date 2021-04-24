@@ -18,7 +18,7 @@
     γ::Float64=1.0
 end
 
-function MachineReplacement(pomdp::MachineReplacement; γ::Float64=pomdp.γ)
+function DiscretePOMDP(pomdp::MachineReplacement; γ::Float64=pomdp.γ)
     T = Array{Float64}(undef, 3, 4, 3)
     R = Array{Float64}(undef, 3, 4)
     O = Array{Float64}(undef, 4, 3, 2)

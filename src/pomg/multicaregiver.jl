@@ -3,6 +3,7 @@ struct BabyPOMG
 end
 
 function MultiCaregiverCryingBaby()
+    CryingBaby = BabyPOMDP()
     return BabyPOMG(CryingBaby)
 end
 
