@@ -14,7 +14,11 @@
 # 10% probability that either breaks down during the manufacture of a product
 # Failed components cause 50% of part being defective
 
-function MachineReplacement(; γ::Float64 = 1.0)
+@with_kw struct MachineReplacement
+    γ::Float64=1.0
+end
+
+function MachineReplacement(pomdp::MachineReplacement; γ::Float64=pomdp.γ)
     T = Array{Float64}(undef, 3, 4, 3)
     R = Array{Float64}(undef, 3, 4)
     O = Array{Float64}(undef, 4, 3, 2)

@@ -3,8 +3,8 @@ const MOUNTAIN_CAR_STATE_MAXS = [ 0.6,  0.07]
 const MOUNTAIN_CAR_ACCELS = [-1.0, 0.0, 1.0]
 const MOUNTAIN_CAR_START_STATE = [-0.5, 0.0]
 
-struct MountainCar
-    γ::Float64
+@with_kw struct MountainCar
+    γ::Float64 = 1.0
 end
 
 n_actions(mdp::MountainCar) = length(MOUNTAIN_CAR_ACCELS)

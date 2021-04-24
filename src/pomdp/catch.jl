@@ -1,4 +1,8 @@
-function Catch(; γ::Float64=0.9)
+@with_kw struct Catch
+    γ::Float64=0.9
+end
+
+function DiscreteMDP(mdp::Catch; γ::Float64=mdp.γ)
     Θ = [20,40,60,80] # proficiencies
     𝒜 = collect(10:10:100) # throw distances
 

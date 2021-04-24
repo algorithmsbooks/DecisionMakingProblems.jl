@@ -129,34 +129,75 @@ function CollaborativePredatorPreyHexWorldDecPOMDP(hexes::Vector{Tuple{Int,Int}}
     return CollaborativePredatorPreyHexWorldDecPOMDP(hexes, mdp)
 end
 
-const SimpleCollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
-    [
-         (0, 1),
-     (0, 0), (1, 0),
-     ],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    0.95
-)
+# const SimpleCollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
+#     [
+#          (0, 1),
+#      (0, 0), (1, 0),
+#      ],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     0.95
+# )
 
-const CircleCollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
-    [
-         (-1, 2), (0, 2),
-     (-1, 1),         (1, 1),
+function SimpleCollaborativePredatorPreyHexWorld()
+    SimpleCollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
+        [
+             (0, 1),
          (0, 0), (1, 0),
-     ],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    0.95
-)
+         ],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        0.95
+    )
+    return SimpleCollaborativePredatorPreyHexWorld
+end
 
-const CollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
-    [
-     (-1, 2), (0, 2), (1, 2),
-     (-1, 1), (1, 1), (3, 1), (4, 1),
-     (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
-     ],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    0.95
-)
+# const CircleCollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
+#     [
+#          (-1, 2), (0, 2),
+#      (-1, 1),         (1, 1),
+#          (0, 0), (1, 0),
+#      ],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     0.95
+# )
+
+function CircleCollaborativePredatorPreyHexWorld()
+    CircleCollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
+        [
+             (-1, 2), (0, 2),
+         (-1, 1),         (1, 1),
+             (0, 0), (1, 0),
+         ],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        0.95
+    )
+    return CircleCollaborativePredatorPreyHexWorld
+end
+
+# const CollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
+#     [
+#      (-1, 2), (0, 2), (1, 2),
+#      (-1, 1), (1, 1), (3, 1), (4, 1),
+#      (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
+#      ],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     0.95
+# )
+
+function CollaborativePredatorPreyHexWorld()
+    CollaborativePredatorPreyHexWorld = CollaborativePredatorPreyHexWorldDecPOMDP(
+        [
+         (-1, 2), (0, 2), (1, 2),
+         (-1, 1), (1, 1), (3, 1), (4, 1),
+         (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
+         ],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        0.95
+    )
+    return CollaborativePredatorPreyHexWorld
+end

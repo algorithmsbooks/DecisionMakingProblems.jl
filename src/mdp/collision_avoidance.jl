@@ -169,3 +169,18 @@ end
 function (U::CollisionAvoidanceValueFunction)(s)
     return GridInterpolations.interpolate(U.grid, U.U, vec(s))
 end
+
+function MDP(mdp::CollisionAvoidanceMDP)
+    return MDP(
+            γ,
+            nothing, # no ordered states
+            mdp.𝒜,
+            (s,a) -> transition(mdp,s,a), # no probabilistic transition function
+            (s,a) -> reward(mdp, s, a),
+            (s,a)->begin
+                s′ = rand(transition(mdp,s,a))
+                r = reward(mdp, s, a)
+                return (s′, r)
+            end
+        )
+end

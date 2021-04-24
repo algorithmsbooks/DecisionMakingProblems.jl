@@ -38,5 +38,3 @@ function SimpleGame(simpleGame::PrisonersDilemmaSimpleGame)
         (a) -> joint_reward(simpleGame, a)
     )
 end
-
-PrisonersDilemma = PrisonersDilemmaSimpleGame()

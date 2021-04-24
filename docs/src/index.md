@@ -1,9 +1,15 @@
 # [DecisionMakingProblems.jl](https://github.com/algorithmsbooks/DecisionMakingProblems.jl)
-*A Julia interface to access MDP and POMDP models which appeared in Algorithms for Decision Making.*
+*A Julia interface to access decision models which appeared in Algorithms for Decision Making.*
 
 ## Problem Summary
 
-![Problem Summary](figures/problemsummary.svg)
+![Problem Summary](figures/problemsum.svg)
+
+### Usage
+
+```@contents
+Pages = [ "mdp.md" ]
+```
 
 
 ### MDP Models

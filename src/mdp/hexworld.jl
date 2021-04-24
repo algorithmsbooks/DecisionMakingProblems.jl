@@ -93,29 +93,63 @@ end
 const HexWorldRBumpBorder = -1.0 # Reward for falling off hex map
 const HexWorldPIntended = 0.7 # Probability of going intended direction
 const HexWorldDiscountFactor = 0.9
-const HexWorld = HexWorldMDP(
-    [(0,0),(1,0),(2,0),(3,0),(0,1),(1,1),(2,1),(-1,2),
-     (0,2),(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),
-     (8,2),(4,1),(5,0),(6,0),(7,0),(7,1),(8,1),(9,0)],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    Dict{Tuple{Int,Int}, Float64}(
-        (0,1)=>  5.0, # left side reward
-        (2,0)=>-10.0, # left side hazard
-        (9,0)=> 10.0, # right side reward
-    ),
-    HexWorldDiscountFactor
-)
+# const HexWorld = HexWorldMDP(
+#     [(0,0),(1,0),(2,0),(3,0),(0,1),(1,1),(2,1),(-1,2),
+#      (0,2),(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),
+#      (8,2),(4,1),(5,0),(6,0),(7,0),(7,1),(8,1),(9,0)],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     Dict{Tuple{Int,Int}, Float64}(
+#         (0,1)=>  5.0, # left side reward
+#         (2,0)=>-10.0, # left side hazard
+#         (9,0)=> 10.0, # right side reward
+#     ),
+#     HexWorldDiscountFactor
+# )
 
-const StraightLineHexWorld = HexWorldMDP(
-    [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0)],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    Dict{Tuple{Int,Int}, Float64}(
-        (6,0)=> 10.0, # right side reward
-    ),
-    HexWorldDiscountFactor
-)
+function HexWorld()
+    HexWorld = HexWorldMDP(
+        [(0,0),(1,0),(2,0),(3,0),(0,1),(1,1),(2,1),(-1,2),
+         (0,2),(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),
+         (8,2),(4,1),(5,0),(6,0),(7,0),(7,1),(8,1),(9,0)],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        Dict{Tuple{Int,Int}, Float64}(
+            (0,1)=>  5.0, # left side reward
+            (2,0)=>-10.0, # left side hazard
+            (9,0)=> 10.0, # right side reward
+        ),
+        HexWorldDiscountFactor
+    )
+    return HexWorld
+end
+
+# const StraightLineHexWorld = HexWorldMDP(
+#     [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0)],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     Dict{Tuple{Int,Int}, Float64}(
+#         (6,0)=> 10.0, # right side reward
+#     ),
+#     HexWorldDiscountFactor
+# )
+
+function StraightLineHexWorld()
+    StraightLineHexWorld = HexWorldMDP(
+        [(0,0),(1,0),(2,0),(3,0),(0,1),(1,1),(2,1),(-1,2),
+         (0,2),(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),
+         (8,2),(4,1),(5,0),(6,0),(7,0),(7,1),(8,1),(9,0)],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        Dict{Tuple{Int,Int}, Float64}(
+            (0,1)=>  5.0, # left side reward
+            (2,0)=>-10.0, # left side hazard
+            (9,0)=> 10.0, # right side reward
+        ),
+        HexWorldDiscountFactor
+    )
+    return StraightLineHexWorld
+end
 
 n_states(mdp::HexWorldMDP) = n_states(mdp.mdp)
 n_actions(mdp::HexWorldMDP) = n_actions(mdp.mdp)

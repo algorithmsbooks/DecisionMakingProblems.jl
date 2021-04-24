@@ -1,5 +1,5 @@
-struct LqrMDP
-    γ::Float64
+@with_kw struct LqrMDP
+    γ::Float64 = 1.0
 end
 
 discount(mdp::LqrMDP) = mdp.γ

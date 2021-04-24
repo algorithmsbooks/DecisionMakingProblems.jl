@@ -46,5 +46,3 @@ function SimpleGame(simpleGame::RockPaperScissorsSimpleGame)
         (a) -> joint_reward(simpleGame, a)
     )
 end
-
-RockPaperScissors = RockPaperScissorsSimpleGame()

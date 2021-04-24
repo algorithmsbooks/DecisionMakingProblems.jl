@@ -16,6 +16,15 @@ makedocs(
             # "get_started.md",
             # "concepts.md"
            ],
+        "Usage" => [
+            "mdp.md",
+            # "pomdp.md",
+            # "simplegame.md",
+            # "mg.md",
+            # "pomg.md",
+            # "decpomdp.md"
+           ],
+
 
         "MDP Models" => [
             "hexworld.md",

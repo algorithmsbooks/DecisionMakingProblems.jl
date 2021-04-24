@@ -1,13 +1,14 @@
-mutable struct BabyPOMG
+struct BabyPOMG
     babyPOMDP::BabyPOMDP
 end
 
-MultiCaregiverCryingBaby = BabyPOMG(CryingBaby)
+function MultiCaregiverCryingBaby()
+    return BabyPOMG(CryingBaby)
+end
 
 n_agents(pomg::BabyPOMG) = 2
 
 ordered_states(pomg::BabyPOMG) = [SATED, HUNGRY]
-
 ordered_actions(pomg::BabyPOMG, i::Int) = [FEED, IGNORE, SING]
 ordered_joint_actions(pomg::BabyPOMG) = vec(collect(Iterators.product([ordered_actions(pomg, i) for i in 1:n_agents(pomg)]...)))
 

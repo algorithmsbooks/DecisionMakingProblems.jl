@@ -75,24 +75,52 @@ function PredatorPreyHexWorldMG(hexes::Vector{Tuple{Int,Int}},
     return PredatorPreyHexWorldMG(hexes, mdp)
 end
 
-const CirclePredatorPreyHexWorld = PredatorPreyHexWorldMG(
-    [
-     (-1, 2), (0, 2),
-     (-1, 1), (1, 1),
-     (0, 0), (1, 0),
-     ],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    0.95
-)
+# const CirclePredatorPreyHexWorld = PredatorPreyHexWorldMG(
+#     [
+#      (-1, 2), (0, 2),
+#      (-1, 1), (1, 1),
+#      (0, 0), (1, 0),
+#      ],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     0.95
+# )
 
-const PredatorPreyHexWorld = PredatorPreyHexWorldMG(
-    [
-     (-1, 2), (0, 2), (1, 2),
-     (-1, 1), (1, 1), (3, 1), (4, 1),
-     (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
-     ],
-    HexWorldRBumpBorder,
-    HexWorldPIntended,
-    0.95
-)
+function CirclePredatorPreyHexWorld()
+    CirclePredatorPreyHexWorld = PredatorPreyHexWorldMG(
+        [
+         (-1, 2), (0, 2), (1, 2),
+         (-1, 1), (1, 1), (3, 1), (4, 1),
+         (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
+         ],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        0.95
+    )
+    return CirclePredatorPreyHexWorld
+end
+
+# const PredatorPreyHexWorld = PredatorPreyHexWorldMG(
+#     [
+#      (-1, 2), (0, 2), (1, 2),
+#      (-1, 1), (1, 1), (3, 1), (4, 1),
+#      (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
+#      ],
+#     HexWorldRBumpBorder,
+#     HexWorldPIntended,
+#     0.95
+# )
+
+function PredatorPreyHexWorld()
+    PredatorPreyHexWorld = PredatorPreyHexWorldMG(
+        [
+         (-1, 2), (0, 2), (1, 2),
+         (-1, 1), (1, 1), (3, 1), (4, 1),
+         (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
+         ],
+        HexWorldRBumpBorder,
+        HexWorldPIntended,
+        0.95
+    )
+    return PredatorPreyHexWorld
+end

@@ -9,18 +9,18 @@ Base.:(==)(d1::BoolDistribution, d2::BoolDistribution) = d1.p == d2.p
 Base.hash(d::BoolDistribution, u::UInt64=UInt64(0)) = hash(d.p, u)
 Base.length(d::BoolDistribution) = 2
 
-mutable struct BabyPOMDP
-    r_hungry::Float64
-    r_feed::Float64
-    r_sing::Float64
-    p_become_hungry::Float64
-    p_cry_when_hungry::Float64
-    p_cry_when_not_hungry::Float64
-    p_cry_when_hungry_in_sing::Float64
-    γ::Float64
+@with_kw struct BabyPOMDP
+    r_hungry::Float64 = -10.0
+    r_feed::Float64 = -5.0
+    r_sing::Float64 = -0.5
+    p_become_hungry::Float64 = 0.1
+    p_cry_when_hungry::Float64 = 0.8
+    p_cry_when_not_hungry::Float64 = 0.1
+    p_cry_when_hungry_in_sing::Float64 = 0.9
+    γ::Float64 = 0.9
 end
 
-CryingBaby = BabyPOMDP(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
+# CryingBaby = BabyPOMDP(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
 
 SATED = 1
 HUNGRY = 2
@@ -94,3 +94,46 @@ function reward(pomdp::BabyPOMDP, s::Int, a::Int)
 end
 
 reward(pomdp::BabyPOMDP, b::Vector{Float64}, a::Int) = sum(reward(pomdp,s,a)*b[s] for s in ordered_states(pomdp))
+
+function DiscretePOMDP(pomdp::BabyPOMDP; γ::Float64=pomdp.γ)
+    nS = n_states(pomdp)
+    nA = n_actions(pomdp)
+    nO = n_observations(pomdp)
+
+    T = zeros(nS, nA, nS)
+    R = Array{Float64}(undef, nS, nA)
+    O = Array{Float64}(undef, nA, nS, nO)
+
+    s_s = 1
+    s_h = 2
+
+    a_f = 1
+    a_i = 2
+    a_s = 3
+
+    o_c = 1
+    o_q = 2
+
+    T[s_s, a_f, :] = [1.0, 0.0]
+    T[s_s, a_i, :] = [1.0-pomdp.p_become_hungry, pomdp.p_become_hungry]
+    T[s_s, a_s, :] = [1.0-pomdp.p_become_hungry, pomdp.p_become_hungry]
+    T[s_h, a_f, :] = [1.0, 0.0]
+    T[s_h, a_i, :] = [0.0, 1.0]
+    T[s_h, a_s, :] = [0.0, 1.0]
+
+    R[s_s, a_f, :] = reward(pomdp, s_s, a_f)
+    R[s_s, a_i, :] = reward(pomdp, s_s, a_i)
+    R[s_s, a_s, :] = reward(pomdp, s_s, a_s)
+    R[s_h, a_f, :] = reward(pomdp, s_h, a_f)
+    R[s_h, a_i, :] = reward(pomdp, s_h, a_i)
+    R[s_h, a_s, :] = reward(pomdp, s_h, a_s)
+
+    O[a_f, s_s, :] = [observation(pomdp, a_f, s_s).p, 1 - observation(pomdp, a_f, s_s).p]
+    O[a_f, s_h, :] = [observation(pomdp, a_f, s_h).p, 1 - observation(pomdp, a_f, s_h).p]
+    O[a_i, s_s, :] = [observation(pomdp, a_i, s_s).p, 1 - observation(pomdp, a_i, s_s).p]
+    O[a_i, s_h, :] = [observation(pomdp, a_i, s_h).p, 1 - observation(pomdp, a_i, s_h).p]
+    O[a_s, s_s, :] = [observation(pomdp, a_s, s_s).p, 1 - observation(pomdp, a_s, s_s).p]
+    O[a_s, s_h, :] = [observation(pomdp, a_s, s_h).p, 1 - observation(pomdp, a_s, s_h).p]
+
+    return DiscretePOMDP(T, R, O, γ)
+end

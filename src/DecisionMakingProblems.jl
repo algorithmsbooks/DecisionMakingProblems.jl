@@ -44,7 +44,7 @@ include("pomg/pomg.jl")
 include("pomg/multicaregiver.jl")
 
 include("decpomdp/decpomdp.jl")
-include("decpomdp/predator_prey.jl")
+include("decpomdp/collab_predator_prey.jl")
 
 
 
