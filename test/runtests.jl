@@ -91,7 +91,7 @@ end
     @test 0 <= p.observation(m, rand(1:3), rand(1:2)).p <= 1
     @test p.reward(m, rand(1:2), rand(1:3)) <= 0
     @test p.reward(m, [0.1, 0.9], rand(1:3)) <= 0
-    pomdp = p.POMDP(m)
+    pomdp = p.DiscretePOMDP(m)
 end
 
 @testset "machine_replacement.jl" begin
