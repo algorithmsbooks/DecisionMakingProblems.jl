@@ -5,6 +5,13 @@
 
 ![Problem Summary](figures/problemsum.svg)
 
+## Usage
+If we look at a specific problem whose struct is named `structName` and whose type is `type` as shown in the problem summary table. Then we are able to set up an instance of the struct for that specific problem using the following:
+```julia
+m = structName()
+decprob = type(m)
+```
+
 ### MDP Models
 
 ```@contents
