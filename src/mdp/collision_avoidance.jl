@@ -170,7 +170,7 @@ function (U::CollisionAvoidanceValueFunction)(s)
     return GridInterpolations.interpolate(U.grid, U.U, vec(s))
 end
 
-function MDP(mdp::CollisionAvoidanceMDP)
+function MDP(mdp::CollisionAvoidanceMDP; γ::Float64=1.0)
     return MDP(
             γ,
             nothing, # no ordered states

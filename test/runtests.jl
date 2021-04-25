@@ -23,7 +23,7 @@ const p = DecisionMakingProblems
     @test !p.is_terminal(m, state)
     @test min_state <= p.vec(p.cart_pole_transition(m, state, rand(1:2))) <= max_state
     @test p.reward(m, state, rand(1:2)) in [0.0, 1.0]
-    p.MDP(m)
+    mdp = p.MDP(m)
 end
 
 @testset "collision_avoidance.jl" begin
@@ -35,7 +35,8 @@ end
     @test length(p.vec(rand(p.transition(m, s, optimal_pol(s))))) == 4
     @test p.is_terminal(m, s) == (p.vec(s)[4] < 0.0)
     @test p.reward(m, rand(p.transition(m, s, optimal_pol(s))), rand(m.𝒜)) <= 0
-    p.CollisionAvoidanceValueFunction(m, simple_pol)
+    policy = p.CollisionAvoidanceValueFunction(m, simple_pol)
+    mdp = p.MDP(m)
 end
 
 @testset "hexworld.jl" begin
@@ -55,7 +56,7 @@ end
     @test p.generate_sr(m, state, action)[1] in p.ordered_states(m) && p.generate_sr(m, state, action)[2] <= 10
     @test p.generate_start_state(m) in p.ordered_states(m)
     @test p.hex_distance(rand(hexes), rand(hexes)) >= 0
-    mdp = p.DiscreteMDP(m)
+    mdp = p.MDP(m)
 end
 @testset "simple_lqr.jl" begin
     m = p.LqrMDP()
@@ -63,7 +64,7 @@ end
     state = p.generate_start_state(m)
     @test -10 <= rand(p.transition(m, state, rand())) <= 10
     @test p.reward(m, state, rand()) <= 0
-    p.MDP(m)
+    mdp = p.MDP(m)
 end
 
 @testset "mountain_car.jl" begin
@@ -76,7 +77,7 @@ end
     @test all(state_min <= start_state <= state_max)
     @test all(state_min <= p.mountain_car_transition(start_state, 1) <= state_max)
     @test p.reward(m, start_state, 1) <= 0
-    p.MDP(m)
+    mdp = p.MDP(m)
 end
 
 
@@ -91,7 +92,7 @@ end
     @test 0 <= p.observation(m, rand(1:3), rand(1:2)).p <= 1
     @test p.reward(m, rand(1:2), rand(1:3)) <= 0
     @test p.reward(m, [0.1, 0.9], rand(1:3)) <= 0
-    pomdp = p.DiscretePOMDP(m)
+    pomdp = p.POMDP(m)
 end
 
 @testset "machine_replacement.jl" begin
@@ -105,7 +106,7 @@ end
     @test rand(p.transition(m, rand(1:3), rand(1:4))) in 1:3
     @test rand(p.observation(m, rand(1:4), rand(1:3))) in 1:2
     @test p.reward(m, rand(1:3), rand(1:4)) <= 1.0
-    p.POMDP(m)
+    pomdp = p.POMDP(m)
 end
 
 @testset "catch.jl" begin
@@ -119,7 +120,7 @@ end
     @test rand(p.transition(m, rand(1:4), rand(1:10))) in 1:4
     @test rand(p.observation(m, rand(1:10), rand(1:4))) in 1:2
     @test p.reward(m, rand(1:4), rand(1:10)) >= 0
-    p.POMDP(m)
+    pomdp = p.POMDP(m)
 end
 
 
@@ -130,7 +131,7 @@ end
     @test p.n_actions(m, rand(1:2)) == 2 && p.n_joint_actions(m) == 4
     @test p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 0.0
     @test p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [0.0, 0.0]
-    p.SimpleGame(m)
+    simplegame = p.SimpleGame(m)
 end
 
 @testset "rock_paper_scissors.jl" begin
@@ -140,7 +141,7 @@ end
     @test p.n_actions(m, rand(1:2)) == 3 && p.n_joint_actions(m) == 9
     @test -1.0 <= p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 1.0
     @test [-1.0, -1.0] <= p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [1.0, 1.0]
-    p.SimpleGame(m)
+    simplegame = p.SimpleGame(m)
 end
 
 @testset "travelers.jl" begin
@@ -150,7 +151,7 @@ end
     @test p.n_actions(m, rand(1:2)) == 99 && p.n_joint_actions(m) == 99^2
     @test 0.0 <= p.reward(m, rand(1:2), [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= 102
     @test [0.0, 0.0] <= p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [102, 102]
-    p.SimpleGame(m)
+    simplegame = p.SimpleGame(m)
 end
 
 @testset "predator_prey.jl" begin
@@ -164,7 +165,7 @@ end
     @test 0.0 <= p.transition(m, rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m)), rand(p.ordered_states(m))) <= 1.0
     @test -1.0 <= p.reward(m, rand(1:2), rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m))) <= 10.0
     @test [-1.0, -1.0] <= p.joint_reward(m, rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m))) <= [10.0, 10.0]
-    p.MG(m)
+    mg = p.MG(m)
 end
 
 @testset "multicaregiver.jl" begin
@@ -180,7 +181,7 @@ end
     @test 0.0 <= p.joint_observation(m, rand(p.ordered_joint_actions(m)), rand(p.ordered_states(m)), rand(p.ordered_joint_observations(m))) <= 1.0
     @test p.joint_reward(m, rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m))) <= [0.0, 0.0]
     @test p.joint_reward(m, rand(Float64, 2), rand(p.ordered_joint_actions(m))) <= [0.0, 0.0]
-    p.POMG(m)
+    pomg = p.POMG(m)
 end
 
 @testset "collab_predator_prey.jl" begin
@@ -196,5 +197,5 @@ end
     @test 0.0 <= p.transition(m, rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m)), rand(p.ordered_states(m))) <= 1.0
     @test 0.0 <= p.joint_observation(m, rand(p.ordered_joint_actions(m)), rand(p.ordered_states(m)), rand(p.ordered_joint_observations(m))) <= 1.0
     @test -1.0 <= p.reward(m, rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m))) <= 10.0
-    p.DecPOMDP(m)
+    decpomdp = p.DecPOMDP(m)
 end
