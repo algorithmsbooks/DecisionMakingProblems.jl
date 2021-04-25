@@ -25,3 +25,24 @@ function generate_s(mdp::DiscreteMDP, s::Int, a::Int)
     return s′
 end
 reward(mdp::DiscreteMDP, s::Int, a::Int) = mdp.R[s,a]
+
+function MDP(mdp::DiscreteMDP; γ::Float64=discount(mdp))
+    return MDP(
+        γ,
+        ordered_states(mdp),
+        ordered_actions(mdp),
+        (s,a, s′=nothing) -> begin
+            S′ = transition(mdp, s, a)
+            if s′ == nothing
+                return S′
+            end
+            return pdf(S′, s′)
+        end,
+        (s,a) -> reward(mdp, s, a),
+        (s, a)->begin
+            s′ = rand(transition(mdp,s,a))
+            r = reward(mdp, s, a)
+            return (s′, r)
+        end
+    )
+end

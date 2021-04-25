@@ -55,6 +55,7 @@ end
     @test p.generate_sr(m, state, action)[1] in p.ordered_states(m) && p.generate_sr(m, state, action)[2] <= 10
     @test p.generate_start_state(m) in p.ordered_states(m)
     @test p.hex_distance(rand(hexes), rand(hexes)) >= 0
+    mdp = p.DiscreteMDP(m)
 end
 @testset "simple_lqr.jl" begin
     m = p.LqrMDP()
@@ -80,7 +81,8 @@ end
 
 
 @testset "crying_baby.jl" begin
-    m = p.BabyPOMDP(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
+    # m = p.BabyPOMDP(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
+    m = p.BabyPOMDP()
     @test p.n_states(m) == 2 && p.ordered_states(m) == [1, 2]
     @test p.n_actions(m) == 3 && p.ordered_actions(m) == [1, 2, 3]
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == [true, false]
@@ -89,12 +91,13 @@ end
     @test 0 <= p.observation(m, rand(1:3), rand(1:2)).p <= 1
     @test p.reward(m, rand(1:2), rand(1:3)) <= 0
     @test p.reward(m, [0.1, 0.9], rand(1:3)) <= 0
+    pomdp = p.POMDP(m)
 end
 
 @testset "machine_replacement.jl" begin
     # m = p.generate_machine_replacement_pomdp(1.0)
     mdp = p.MachineReplacement()
-    m = p.MachineReplacement(mdp)
+    m = p.DiscretePOMDP(mdp)
     @test p.n_states(m) == 3 && p.ordered_states(m) == 1:3
     @test p.n_actions(m) == 4 && p.ordered_actions(m) == 1:4
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == 1:2
@@ -108,7 +111,7 @@ end
 @testset "catch.jl" begin
     # m = p.generate_catch_pomdp(0.9)
     mdp = p.Catch()
-    m = p.DiscreteMDP(mdp)
+    m = p.DiscretePOMDP(mdp)
     @test p.n_states(m) == 4 && p.ordered_states(m) == 1:4
     @test p.n_actions(m) == 10 && p.ordered_actions(m) == 1:10
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == 1:2

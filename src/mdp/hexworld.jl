@@ -174,3 +174,6 @@ end
 function DiscreteMDP(mdp::HexWorldMDP)
     return mdp.mdp
 end
+function MDP(mdp::HexWorldMDP)
+    return MDP(mdp.mdp)
+end

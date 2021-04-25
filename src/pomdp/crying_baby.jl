@@ -137,3 +137,46 @@ function DiscretePOMDP(pomdp::BabyPOMDP; γ::Float64=pomdp.γ)
 
     return DiscretePOMDP(T, R, O, γ)
 end
+
+function POMDP(pomdp::BabyPOMDP; γ::Float64=pomdp.γ)
+    nS = n_states(pomdp)
+    nA = n_actions(pomdp)
+    nO = n_observations(pomdp)
+
+    T = zeros(nS, nA, nS)
+    R = Array{Float64}(undef, nS, nA)
+    O = Array{Float64}(undef, nA, nS, nO)
+
+    s_s = 1
+    s_h = 2
+
+    a_f = 1
+    a_i = 2
+    a_s = 3
+
+    o_c = 1
+    o_q = 2
+
+    T[s_s, a_f, :] = [1.0, 0.0]
+    T[s_s, a_i, :] = [1.0-pomdp.p_become_hungry, pomdp.p_become_hungry]
+    T[s_s, a_s, :] = [1.0-pomdp.p_become_hungry, pomdp.p_become_hungry]
+    T[s_h, a_f, :] = [1.0, 0.0]
+    T[s_h, a_i, :] = [0.0, 1.0]
+    T[s_h, a_s, :] = [0.0, 1.0]
+
+    R[s_s, a_f, :] = reward(pomdp, s_s, a_f)
+    R[s_s, a_i, :] = reward(pomdp, s_s, a_i)
+    R[s_s, a_s, :] = reward(pomdp, s_s, a_s)
+    R[s_h, a_f, :] = reward(pomdp, s_h, a_f)
+    R[s_h, a_i, :] = reward(pomdp, s_h, a_i)
+    R[s_h, a_s, :] = reward(pomdp, s_h, a_s)
+
+    O[a_f, s_s, :] = [observation(pomdp, a_f, s_s).p, 1 - observation(pomdp, a_f, s_s).p]
+    O[a_f, s_h, :] = [observation(pomdp, a_f, s_h).p, 1 - observation(pomdp, a_f, s_h).p]
+    O[a_i, s_s, :] = [observation(pomdp, a_i, s_s).p, 1 - observation(pomdp, a_i, s_s).p]
+    O[a_i, s_h, :] = [observation(pomdp, a_i, s_h).p, 1 - observation(pomdp, a_i, s_h).p]
+    O[a_s, s_s, :] = [observation(pomdp, a_s, s_s).p, 1 - observation(pomdp, a_s, s_s).p]
+    O[a_s, s_h, :] = [observation(pomdp, a_s, s_h).p, 1 - observation(pomdp, a_s, s_h).p]
+
+    return POMDP(DiscretePOMDP(T, R, O, γ))
+end
