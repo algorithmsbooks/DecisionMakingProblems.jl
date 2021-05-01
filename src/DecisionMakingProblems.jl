@@ -6,10 +6,10 @@ using Random
 using LinearAlgebra
 using GridInterpolations
 using Parameters
-using Statistics
-using Printf
+# using Statistics
+# using Printf
 
-import Base: <, ==, rand, vec 
+import Base: <, ==, rand, vec
 
 include("support_code.jl")
 
@@ -19,7 +19,8 @@ include("support_code.jl")
 include("mdp/mdp.jl")
 include("mdp/discrete_mdp.jl")
 # include("mdp/sliding_tile_puzzle.jl")
-# include("mdp/gridworld.jl")
+# include("mdp/gridworld.jl
+include("mdp/2048.jl")
 include("mdp/hexworld.jl")
 # include("mdp/you_get_what_you_bet.jl")
 include("mdp/simple_lqr.jl")
