@@ -7,7 +7,7 @@ using LinearAlgebra
 using GridInterpolations
 using Parameters
 # using Statistics
-# using Printf
+using Printf
 
 import Base: <, ==, rand, vec
 
