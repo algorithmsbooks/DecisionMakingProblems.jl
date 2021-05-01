@@ -1,10 +1,9 @@
 ###
 # 2048
 
-using Statistics
-using Printf
 
-import Base: rand, <, ==
+
+# import Base: rand, <, ==
 
 # =======================================================================
 # This code implements 2048 with a state type of UInt64.
