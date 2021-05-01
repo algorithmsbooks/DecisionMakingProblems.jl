@@ -75,7 +75,7 @@ function MDP(mdp::TwentyFortyEight; γ::Float64=mdp.γ)
             nothing, # no ordered states
             DIRECTIONS,
             nothing, # no probabilistic transition function
-            (s,a) -> reward(s, a)
+            (s,a) -> reward(s, a),
             (s, a)->begin
                 s′ = transition(s, a)
                 r = reward(s, a)
