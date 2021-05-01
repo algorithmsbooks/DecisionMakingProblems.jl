@@ -10,6 +10,19 @@ using GridInterpolations
 # @nbinclude(joinpath(dirname(@__FILE__), "..", "doc", "PGFPlots.ipynb"))
 const p = DecisionMakingProblems
 
+# MDP
+
+@testset "2048.jl" begin
+    m = p.TwentyFortyEight()
+    mdp = p.MDP(m)
+    @test length(mdp.𝒜) == 4
+    @test mdp.γ == 1.0
+    init_state = initial_board()
+    s′, r = mdp.TR(init_state, rand(mdp.𝒜))
+    @test s' != s || isdone(s′)
+    @test r >= -1.0
+end
+
 @testset "cart_pole.jl" begin
     # m = p.CartPole(1.0, 10.0, 1.0, 1.0, 0.1, 9.8, 0.02, 4.8, deg2rad(24))
     m = p.CartPole()
@@ -59,7 +72,7 @@ end
     mdp = p.MDP(m)
 end
 @testset "simple_lqr.jl" begin
-    m = p.LqrMDP()
+    m = p.LQR()
     @test p.discount(m) == 1.0
     state = p.generate_start_state(m)
     @test -10 <= rand(p.transition(m, state, rand())) <= 10
@@ -81,9 +94,11 @@ end
 end
 
 
+# POMDP
+
 @testset "crying_baby.jl" begin
-    # m = p.BabyPOMDP(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
-    m = p.BabyPOMDP()
+    # m = p.CryingBaby(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
+    m = p.CryingBaby()
     @test p.n_states(m) == 2 && p.ordered_states(m) == [1, 2]
     @test p.n_actions(m) == 3 && p.ordered_actions(m) == [1, 2, 3]
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == [true, false]
@@ -124,8 +139,10 @@ end
 end
 
 
+# Simple Game
+
 @testset "prisoners_dilemma.jl" begin
-    m = p.PrisonersDilemmaSimpleGame()
+    m = p.PrisonersDilemma()
     @test p.n_agents(m) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 2 && length(p.ordered_joint_actions(m)) == 4
     @test p.n_actions(m, rand(1:2)) == 2 && p.n_joint_actions(m) == 4
@@ -135,7 +152,7 @@ end
 end
 
 @testset "rock_paper_scissors.jl" begin
-    m = p.RockPaperScissorsSimpleGame()
+    m = p.RockPaperScissors()
     @test p.n_agents(m) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 3 && length(p.ordered_joint_actions(m)) == 9
     @test p.n_actions(m, rand(1:2)) == 3 && p.n_joint_actions(m) == 9
@@ -145,7 +162,7 @@ end
 end
 
 @testset "travelers.jl" begin
-    m = p.TravelersSimpleGame()
+    m = p.Travelers()
     @test p.n_agents(m) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 99 && length(p.ordered_joint_actions(m)) == 99^2
     @test p.n_actions(m, rand(1:2)) == 99 && p.n_joint_actions(m) == 99^2
@@ -153,6 +170,9 @@ end
     @test [0.0, 0.0] <= p.joint_reward(m, [rand(p.ordered_actions(m, 0)), rand(p.ordered_actions(m, 0))]) <= [102, 102]
     simplegame = p.SimpleGame(m)
 end
+
+
+# Markov Game
 
 @testset "predator_prey.jl" begin
     m = p.PredatorPreyHexWorld()
@@ -167,6 +187,8 @@ end
     @test [-1.0, -1.0] <= p.joint_reward(m, rand(p.ordered_states(m)), rand(p.ordered_joint_actions(m))) <= [10.0, 10.0]
     mg = p.MG(m)
 end
+
+# POMG
 
 @testset "multicaregiver.jl" begin
     m = p.MultiCaregiverCryingBaby()
@@ -183,6 +205,9 @@ end
     @test p.joint_reward(m, rand(Float64, 2), rand(p.ordered_joint_actions(m))) <= [0.0, 0.0]
     pomg = p.POMG(m)
 end
+
+
+# DecPOMDP
 
 @testset "collab_predator_prey.jl" begin
     m = p.CollaborativePredatorPreyHexWorld()

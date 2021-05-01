@@ -1,18 +1,18 @@
-@with_kw struct LqrMDP
+@with_kw struct LQR
     γ::Float64 = 1.0
 end
 
-discount(mdp::LqrMDP) = mdp.γ
+discount(mdp::LQR) = mdp.γ
 
-generate_start_state(mdp::LqrMDP) = rand(Normal(0.3,0.1))
+generate_start_state(mdp::LQR) = rand(Normal(0.3,0.1))
 
-function transition(mdp::LqrMDP, s::Float64, a::Float64)
+function transition(mdp::LQR, s::Float64, a::Float64)
     # NOTE: Truncated to prevent going off to infinity with poor policies
     return Truncated(Normal(s + a, 0.1), -10.0, 10.0)
 end
-reward(mdp::LqrMDP, s::Float64, a::Float64) = -s^2
+reward(mdp::LQR, s::Float64, a::Float64) = -s^2
 
-function MDP(mdp::LqrMDP; γ::Float64=mdp.γ)
+function MDP(mdp::LQR; γ::Float64=mdp.γ)
     return MDP(
             γ,
             nothing, # continuous state

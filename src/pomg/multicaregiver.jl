@@ -1,10 +1,10 @@
 struct BabyPOMG
-    babyPOMDP::BabyPOMDP
+    babyPOMDP::CryingBaby
 end
 
 function MultiCaregiverCryingBaby()
-    CryingBaby = BabyPOMDP()
-    return BabyPOMG(CryingBaby)
+    BabyPOMDP = CryingBaby()
+    return BabyPOMG(BabyPOMDP)
 end
 
 n_agents(pomg::BabyPOMG) = 2

@@ -9,7 +9,7 @@ Base.:(==)(d1::BoolDistribution, d2::BoolDistribution) = d1.p == d2.p
 Base.hash(d::BoolDistribution, u::UInt64=UInt64(0)) = hash(d.p, u)
 Base.length(d::BoolDistribution) = 2
 
-@with_kw struct BabyPOMDP
+@with_kw struct CryingBaby
     r_hungry::Float64 = -10.0
     r_feed::Float64 = -5.0
     r_sing::Float64 = -0.5
@@ -20,7 +20,7 @@ Base.length(d::BoolDistribution) = 2
     γ::Float64 = 0.9
 end
 
-# CryingBaby = BabyPOMDP(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
+# CryingBaby = CryingBaby(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
 
 SATED = 1
 HUNGRY = 2
@@ -41,17 +41,17 @@ CRYING_BABY_ACTION_NAMES = Dict(
     SING => "sing",
 )
 
-n_states(::BabyPOMDP) = 2
-n_actions(::BabyPOMDP) = 3
-n_observations(::BabyPOMDP) = 2
-discount(pomdp::BabyPOMDP) = pomdp.γ
+n_states(::CryingBaby) = 2
+n_actions(::CryingBaby) = 3
+n_observations(::CryingBaby) = 2
+discount(pomdp::CryingBaby) = pomdp.γ
 
-ordered_states(::BabyPOMDP) = [SATED, HUNGRY]
-ordered_actions(::BabyPOMDP) = [FEED, IGNORE, SING]
-ordered_observations(::BabyPOMDP) = [CRYING,QUIET]
+ordered_states(::CryingBaby) = [SATED, HUNGRY]
+ordered_actions(::CryingBaby) = [FEED, IGNORE, SING]
+ordered_observations(::CryingBaby) = [CRYING,QUIET]
 
 two_state_categorical(p1::Float64) = Categorical([p1,1.0 - p1])
-function transition(pomdp::BabyPOMDP, s::Int, a::Int)
+function transition(pomdp::CryingBaby, s::Int, a::Int)
     if a == FEED
         return two_state_categorical(1.0)
     else
@@ -64,7 +64,7 @@ function transition(pomdp::BabyPOMDP, s::Int, a::Int)
     end
 end
 
-function observation(pomdp::BabyPOMDP, a::Int, s′::Int)
+function observation(pomdp::CryingBaby, a::Int, s′::Int)
     if a == SING
         if s′ == HUNGRY
             return BoolDistribution(pomdp.p_cry_when_hungry_in_sing)
@@ -80,7 +80,7 @@ function observation(pomdp::BabyPOMDP, a::Int, s′::Int)
     end
 end
 
-function reward(pomdp::BabyPOMDP, s::Int, a::Int)
+function reward(pomdp::CryingBaby, s::Int, a::Int)
     r = 0.0
     if s == HUNGRY
         r += pomdp.r_hungry
@@ -93,9 +93,9 @@ function reward(pomdp::BabyPOMDP, s::Int, a::Int)
     return r
 end
 
-reward(pomdp::BabyPOMDP, b::Vector{Float64}, a::Int) = sum(reward(pomdp,s,a)*b[s] for s in ordered_states(pomdp))
+reward(pomdp::CryingBaby, b::Vector{Float64}, a::Int) = sum(reward(pomdp,s,a)*b[s] for s in ordered_states(pomdp))
 
-function DiscretePOMDP(pomdp::BabyPOMDP; γ::Float64=pomdp.γ)
+function DiscretePOMDP(pomdp::CryingBaby; γ::Float64=pomdp.γ)
     nS = n_states(pomdp)
     nA = n_actions(pomdp)
     nO = n_observations(pomdp)
@@ -138,7 +138,7 @@ function DiscretePOMDP(pomdp::BabyPOMDP; γ::Float64=pomdp.γ)
     return DiscretePOMDP(T, R, O, γ)
 end
 
-function POMDP(pomdp::BabyPOMDP; γ::Float64=pomdp.γ)
+function POMDP(pomdp::CryingBaby; γ::Float64=pomdp.γ)
     disc_pomdp = DiscretePOMDP(pomdp)
     return POMDP(disc_pomdp)
 end

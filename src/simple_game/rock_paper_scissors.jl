@@ -1,14 +1,14 @@
-struct RockPaperScissorsSimpleGame end
+struct RockPaperScissors end
 
-n_agents(simpleGame::RockPaperScissorsSimpleGame) = 2
+n_agents(simpleGame::RockPaperScissors) = 2
 
-ordered_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = [:rock, :paper, :scissors]
-ordered_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = vec(collect(Iterators.product([ordered_actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
+ordered_actions(simpleGame::RockPaperScissors, i::Int) = [:rock, :paper, :scissors]
+ordered_joint_actions(simpleGame::RockPaperScissors) = vec(collect(Iterators.product([ordered_actions(simpleGame, i) for i in 1:n_agents(simpleGame)]...)))
 
-n_joint_actions(simpleGame::RockPaperScissorsSimpleGame) = length(ordered_joint_actions(simpleGame))
-n_actions(simpleGame::RockPaperScissorsSimpleGame, i::Int) = length(ordered_actions(simpleGame, i))
+n_joint_actions(simpleGame::RockPaperScissors) = length(ordered_joint_actions(simpleGame))
+n_actions(simpleGame::RockPaperScissors, i::Int) = length(ordered_actions(simpleGame, i))
 
-function reward(simpleGame::RockPaperScissorsSimpleGame, i::Int, a)
+function reward(simpleGame::RockPaperScissors, i::Int, a)
     if i == 1
         noti = 2
     else
@@ -34,11 +34,11 @@ function reward(simpleGame::RockPaperScissorsSimpleGame, i::Int, a)
     return r
 end
 
-function joint_reward(simpleGame::RockPaperScissorsSimpleGame, a)
+function joint_reward(simpleGame::RockPaperScissors, a)
     return [reward(simpleGame, i, a) for i in 1:n_agents(simpleGame)]
 end
 
-function SimpleGame(simpleGame::RockPaperScissorsSimpleGame)
+function SimpleGame(simpleGame::RockPaperScissors)
     return SimpleGame(
         0.9,
         vec(collect(1:n_agents(simpleGame))),
