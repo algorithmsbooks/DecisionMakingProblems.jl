@@ -6,7 +6,7 @@ using Random
 using LinearAlgebra
 using GridInterpolations
 using Parameters
-# using Statistics
+using Statistics
 using Printf
 
 import Base: <, ==, rand, vec
