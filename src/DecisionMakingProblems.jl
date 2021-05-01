@@ -9,7 +9,7 @@ using Parameters
 using Statistics
 using Printf
 
-import Base: <, ==, rand, vec, 
+import Base: <, ==, rand, vec 
 
 include("support_code.jl")
 
