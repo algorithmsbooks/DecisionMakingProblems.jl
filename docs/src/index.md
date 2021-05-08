@@ -4,23 +4,23 @@
 ## Problem Summary
 The following table contains the information about each of the problems contained in this package.
 
-| Name      | ``\mathcal{I}``   | ``\mathcal{S}``  | ``\mathcal{A}`` | ``\mathcal{O}`` | ``\gamma`` | Struct Name  | Type |
-| :-------------: | :----------: | :------------------------: | :------------------------: | :------------: | :----------: | :----------: | :-----------: |
-| Hexworld  | –   | varies   | 6   | -  | 0.9   | HexWorld, StraightLineHexWorld    | MDP   |
-| 2048     | -  | ``\infty``  | 4    | -   | 1   | TwentyFortyEight    | MDP  |
-| Cart-pole  | -  | subset of ``\mathbb{R}^4``  | 2   | -  | 1  | CartPole  | MDP  |
-| Mountain Car  | -  | subset of ``\mathbb{R}^2``  | 3  | -  | 1  | MountainCar  | MDP  |
-| Simple Regulator  | -  | subset of ``\mathbb{R}``  | subset of ``\mathbb{R}``  | -  | 1 or 0.9  | LQR  | MDP  |
-| Aircraft collision avoidance  | -  | subset of ``\mathbb{R}^3``  | 3  | -  | 1  | CollisionAvoidance   | MDP |
-| Crying baby | - | 2  | 3 | 2 | 0.9 | CryingBaby | POMDP |
-| Machine Replacement | - | 3 | 4 | 2 | 1 | MachineReplacement | POMDP |
-| Catch | - | 4 | 10 | 2 | 0.9 | Catch | POMDP |
-| Prisoner's dilemma | 2 | - | 2 per agent | - | 1  | PrisonersDilemma  | SimpleGame |
-| Rock-paper-scissors | 2 | - | 3 per agent | - | 1 | RockPaperScissors | SimpleGame |
-| Traveler's Dilemma | 2 | - | 99 per agent | - | 1 | Travelers | SimpleGame |
-| Predator-prey hex world | varies | varies | 6 per agent | - | 0.9 | PredatorPreyHexWorld, CirclePredatorPreyHexWorld | MG |
-| Multiagent Crying Baby | 2 | 2 | 3 per agent  | 2 per agent | 0.9 | MultiCaregiverCryingBaby | POMG |
-| Collaborative predator-prey hex world | varies | varies | 6 per agent | -  | 0.9  | CollaborativePredatorPreyHexWorld, SimpleCollaborativePredatorPreyHexWorld, CircleCollaborativePredatorPreyHexWorld | DecPOMDP \|
+| Name      | ``\mathcal{S}``  | ``\mathcal{A}`` | ``\mathcal{O}`` | ``\gamma`` | Struct Name  | Type |
+| :------------- | ------------------------: | :------------------------: | :------------: | :----------: | :----------: | :-----------: |
+| Hexworld  | varies   | 6   | -  | 0.9   | HexWorld, StraightLineHexWorld    | MDP   |
+| 2048     | ``\infty``  | 4    | -   | 1   | TwentyFortyEight    | MDP  |
+| Cart-pole | subset of ``\mathbb{R}^4``  | 2   | -  | 1  | CartPole  | MDP  |
+| Mountain Car | subset of ``\mathbb{R}^2``  | 3  | -  | 1  | MountainCar  | MDP  |
+| Simple Regulator | subset of ``\mathbb{R}``  | subset of ``\mathbb{R}``  | -  | 1 or 0.9  | LQR  | MDP  |
+| Aircraft collision avoidance | subset of ``\mathbb{R}^3``  | 3  | -  | 1  | CollisionAvoidance   | MDP |
+| Crying baby | 2  | 3 | 2 | 0.9 | CryingBaby | POMDP |
+| Machine Replacement | 3 | 4 | 2 | 1 | MachineReplacement | POMDP |
+| Catch | 4 | 10 | 2 | 0.9 | Catch | POMDP |
+| Prisoner's dilemma | - | 2 per agent | - | 1  | PrisonersDilemma  | SimpleGame |
+| Rock-paper-scissors  | - | 3 per agent | - | 1 | RockPaperScissors | SimpleGame |
+| Traveler's Dilemma | - | 99 per agent | - | 1 | Travelers | SimpleGame |
+| Predator-prey hex world | varies | 6 per agent | - | 0.9 | PredatorPreyHexWorld, CirclePredatorPreyHexWorld | MG |
+| Multiagent Crying Baby  | 2 | 3 per agent  | 2 per agent | 0.9 | MultiCaregiverCryingBaby | POMG |
+| Collaborative predator-prey hex world | varies | 6 per agent | -  | 0.9  | CollaborativePredatorPreyHexWorld, SimpleCollaborativePredatorPreyHexWorld, CircleCollaborativePredatorPreyHexWorld | DecPOMDP \|
 
 The last column has the following key:
  - MDP: Markov Decision Process
@@ -45,7 +45,7 @@ decprob = SimpleGame(m)
 ### MDP Models
 
 ```@contents
-Pages = [ "hexworld.md", "2048.md", "cart_pole.md", "mountain_car.md", "simple_lqr.md", "collision_avoidance.md" ]
+Pages = [ "mdp.md", "hexworld.md", "2048.md", "cart_pole.md", "mountain_car.md", "simple_lqr.md", "collision_avoidance.md" ]
 ```
 
 ### POMDP Models

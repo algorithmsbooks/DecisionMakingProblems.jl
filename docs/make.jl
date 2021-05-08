@@ -12,7 +12,6 @@ makedocs(
         ##############################################
         "Basics" => [
             "index.md",
-            "mdp.md",
             # "get_started.md",
             # "concepts.md"
            ],
@@ -27,7 +26,7 @@ makedocs(
 
 
         "MDP Models" => [
-            # "mdp.md",
+            "mdp.md",
             "hexworld.md",
             "2048.md",
             "cart_pole.md",
