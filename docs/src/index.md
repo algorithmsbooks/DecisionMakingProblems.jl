@@ -5,7 +5,7 @@
 The following table contains the information about each of the problems contained in this package.
 
 | Name      | ``\mathcal{S}``  | ``\mathcal{A}`` | ``\mathcal{O}`` | ``\gamma`` | Struct Name  | Type |
-| :------------- | ------------------------: | :------------------------: | :------------: | :----------: | :----------: | :-----------: |
+| :------------- | :------------------------ | :------------------------ | :------------ | :---------- | :---------- | :----------- |
 | Hexworld  | varies   | 6   | -  | 0.9   | HexWorld, StraightLineHexWorld    | MDP   |
 | 2048     | ``\infty``  | 4    | -   | 1   | TwentyFortyEight    | MDP  |
 | Cart-pole | subset of ``\mathbb{R}^4``  | 2   | -  | 1  | CartPole  | MDP  |
