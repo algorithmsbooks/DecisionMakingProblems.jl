@@ -23,3 +23,5 @@ using DecisionMakingProblems
 ## Credits
 
 Contributors to this package include Sidhart Krishnan, Tim Wheeler, and Mykel Kochenderfer.
+
+The 2048 implementation was translated from [a C++ implementation](https://github.com/nneonneo/2048-ai) by Robert Xiao.
