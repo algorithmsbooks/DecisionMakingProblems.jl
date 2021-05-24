@@ -3,7 +3,7 @@
 
 
 
-# import Base: rand, <, ==
+import Base: rand, <, ==
 
 # =======================================================================
 # This code implements 2048 with a state type of UInt64.
