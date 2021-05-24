@@ -50,22 +50,32 @@ const TWENTY_FORTY_EIGHT_MOVE_STRINGS = ["LEFT", "DOWN", "RIGHT", "UP"]
     γ::Float64 = 1.0
 end
 
-function transition(s::Board, a::TwentyFortyEightAction)
+function transition(mdp::TwentyFortyEight, s::Board, a::TwentyFortyEightAction)
     s′ = move(s, a)
-    if s′ == s
+    if s′ == s # terminal state or illegal action
         return s′
     end
     s′ = insert_tile_rand(s′, draw_tile())
     return s′
 end
 
-function reward(s::Board, a::TwentyFortyEightAction)
+function reward(mdp::TwentyFortyEight, s::Board, a::TwentyFortyEightAction)
     s′ = move(s, a)
-    if s′ == s
+    if s′ == s # terminal state or illegal action
         return -1.0
     end
     s′ = insert_tile_rand(s′, draw_tile())
     return score_board(s′) - score_board(s)
+end
+
+function transition_and_reward(mdp::TwentyFortyEight, s::Board, a::TwentyFortyEightAction)
+    s′ = move(s, a)
+    if s′ == s # terminal state or illegal action
+        return (s′, -1.0)
+    end
+    s′ = insert_tile_rand(s′, draw_tile())
+    r = score_board(s′) - score_board(s)
+    return (s′, r)
 end
 
 
@@ -75,18 +85,10 @@ function MDP(mdp::TwentyFortyEight; γ::Float64=mdp.γ)
             nothing, # no ordered states
             DIRECTIONS,
             nothing, # no probabilistic transition function
-            (s,a) -> reward(s, a),
-            (s, a)->begin
-                s′ = transition(s, a)
-                r = reward(s, a)
-                return (s′, r)
-            end
+            (s,a) -> reward(mdp, s, a),
+            (s, a)-> transition_and_reward(mdp, s,a)
         )
 end
-
-
-
-
 
 """
 Print out a 2048 state.
