@@ -18,7 +18,7 @@ const p = DecisionMakingProblems
     @test length(mdp.𝒜) == 4
     @test mdp.γ == 1.0
     init_state = p.initial_board()
-    s′, r = mdp.TR(init_state, p.rand(mdp.𝒜))
+    s′, r = mdp.TR(init_state, p.DOWN)
     @test s′ != init_state || isdone(s′)
     @test r >= -1.0
 end
