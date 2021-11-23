@@ -8,7 +8,7 @@ generate_start_state(mdp::LQR) = rand(Normal(0.3,0.1))
 
 function transition(mdp::LQR, s::Float64, a::Float64)
     # NOTE: Truncated to prevent going off to infinity with poor policies
-    return Truncated(Normal(s + a, 0.1), -10.0, 10.0)
+    return truncated(Normal(s + a, 0.1), -10.0, 10.0)
 end
 reward(mdp::LQR, s::Float64, a::Float64) = -s^2
 

@@ -1,4 +1,4 @@
-@with_kw struct CollisionAvoidanceMDP
+@with_kw struct CollisionAvoidance
     ddh_max::Float64 = 1.0 # vertical acceleration limit [m/s²]
     collision_threshold::Float64 = 50.0 # collision threshold [m]
     reward_collision::Float64 = -1.0 # reward obtained if collision occurs
@@ -9,16 +9,16 @@
     Pν::SetCategorical{Float64} = SetCategorical([2.0, 0.0, -2.0], [0.25, 0.5, 0.25])
 end
 
-struct CollisionAvoidanceMDPState
+struct CollisionAvoidanceState
     h::Float64 # vertical separation [m]
     dh::Float64 # rate of change of h [m/s]
     a_prev::Float64 # previous acceleration [m/s²]
     τ::Float64 # horizontal separation time [s]
 end
 
-Base.vec(s::CollisionAvoidanceMDPState) = [s.h, s.dh, s.a_prev, s.τ]
+Base.vec(s::CollisionAvoidanceState) = [s.h, s.dh, s.a_prev, s.τ]
 
-function transition(𝒫::CollisionAvoidanceMDP, s::CollisionAvoidanceMDPState, a::Float64)
+function transition(𝒫::CollisionAvoidance, s::CollisionAvoidanceState, a::Float64)
     h = s.h + s.dh
     dh = s.dh
     if a != 0.0
@@ -31,14 +31,14 @@ function transition(𝒫::CollisionAvoidanceMDP, s::CollisionAvoidanceMDPState, 
     a_prev = a
     τ = max(s.τ - 1.0, -1.0)
     states = [
-        CollisionAvoidanceMDPState(h, dh + ν, a_prev, τ) for ν in 𝒫.Pν.elements
+        CollisionAvoidanceState(h, dh + ν, a_prev, τ) for ν in 𝒫.Pν.elements
     ]
     return SetCategorical(states, 𝒫.Pν.distr.p)
 end
 
-is_terminal(𝒫::CollisionAvoidanceMDP, s::CollisionAvoidanceMDPState) = s.τ < 0.0
+is_terminal(𝒫::CollisionAvoidance, s::CollisionAvoidanceState) = s.τ < 0.0
 
-function reward(𝒫::CollisionAvoidanceMDP, s::CollisionAvoidanceMDPState, a::Float64)
+function reward(𝒫::CollisionAvoidance, s::CollisionAvoidanceState, a::Float64)
     r = 0.0
     if abs(s.h) < 𝒫.collision_threshold && abs(s.τ) < eps()
         # We collided
@@ -59,7 +59,7 @@ end
 end
 
 function rand(b::CollisionAvoidanceStateDistribution)
-    return CollisionAvoidanceMDPState(Distributions.rand(b.h), Distributions.rand(b.dh), b.a_prev, b.tau)
+    return CollisionAvoidanceState(Distributions.rand(b.h), Distributions.rand(b.dh), b.a_prev, b.tau)
 end
 
 @with_kw struct SimpleCollisionAvoidancePolicy
@@ -74,7 +74,7 @@ struct OptimalCollisionAvoidancePolicy
     Q
 end
 
-function OptimalCollisionAvoidancePolicy(mdp = CollisionAvoidanceMDP())
+function OptimalCollisionAvoidancePolicy(mdp = CollisionAvoidance())
     𝒜 = mdp.𝒜
 
     hs = range(-200, 200, length=21) # discretization of h in m
@@ -85,7 +85,7 @@ function OptimalCollisionAvoidancePolicy(mdp = CollisionAvoidanceMDP())
     grid = GridInterpolations.RectangleGrid(hs, dhs, 𝒜, τs)
 
     # State space
-    𝒮 = [CollisionAvoidanceMDPState(h, dh, a_prev, τ) for h in hs, dh in dhs, a_prev in mdp.𝒜, τ in τs]
+    𝒮 = [CollisionAvoidanceState(h, dh, a_prev, τ) for h in hs, dh in dhs, a_prev in mdp.𝒜, τ in τs]
 
     # State value function
     U = zeros(length(𝒮))
@@ -105,7 +105,7 @@ function OptimalCollisionAvoidancePolicy(mdp = CollisionAvoidanceMDP())
     return OptimalCollisionAvoidancePolicy(mdp.𝒜, grid, Q)
 end
 
-function action(policy::OptimalCollisionAvoidancePolicy, s::CollisionAvoidanceMDPState)
+function action(policy::OptimalCollisionAvoidancePolicy, s::CollisionAvoidanceState)
     vec_s = vec(s)
     a_best = first(policy.𝒜)
     q_best = -Inf
@@ -118,18 +118,18 @@ function action(policy::OptimalCollisionAvoidancePolicy, s::CollisionAvoidanceMD
     return a_best
 end
 
-function (policy::OptimalCollisionAvoidancePolicy)(s::CollisionAvoidanceMDPState)
+function (policy::OptimalCollisionAvoidancePolicy)(s::CollisionAvoidanceState)
     return action(policy, s)
 end
 
-function action(policy::SimpleCollisionAvoidancePolicy, s::CollisionAvoidanceMDPState)
+function action(policy::SimpleCollisionAvoidancePolicy, s::CollisionAvoidanceState)
     if abs(s.h) < policy.thresh_h && s.τ < policy.thresh_τ
         return (s.h > 0.0) ? policy.𝒜.up : policy.𝒜.down
     end
     return policy.𝒜.noalert
 end
 
-function (policy::SimpleCollisionAvoidancePolicy)(s::CollisionAvoidanceMDPState)
+function (policy::SimpleCollisionAvoidancePolicy)(s::CollisionAvoidanceState)
     return action(policy, s)
 end
 
@@ -139,7 +139,7 @@ struct CollisionAvoidanceValueFunction
     U
 end
 
-function CollisionAvoidanceValueFunction(𝒫::CollisionAvoidanceMDP, policy)
+function CollisionAvoidanceValueFunction(𝒫::CollisionAvoidance, policy)
     𝒜 = 𝒫.𝒜
 
     hs = range(-200, 200, length=21) # discretization of h in m
@@ -150,7 +150,7 @@ function CollisionAvoidanceValueFunction(𝒫::CollisionAvoidanceMDP, policy)
     grid = GridInterpolations.RectangleGrid(hs, dhs, 𝒜, τs)
 
     # State space
-    𝒮 = [CollisionAvoidanceMDPState(h, dh, a_prev, τ) for h in hs, dh in dhs, a_prev in 𝒫.𝒜, τ in τs]
+    𝒮 = [CollisionAvoidanceState(h, dh, a_prev, τ) for h in hs, dh in dhs, a_prev in 𝒫.𝒜, τ in τs]
 
     # State value function
     U = zeros(length(𝒮))
@@ -170,7 +170,7 @@ function (U::CollisionAvoidanceValueFunction)(s)
     return GridInterpolations.interpolate(U.grid, U.U, vec(s))
 end
 
-function MDP(mdp::CollisionAvoidanceMDP; γ::Float64=1.0)
+function MDP(mdp::CollisionAvoidance; γ::Float64=1.0)
     return MDP(
             γ,
             nothing, # no ordered states

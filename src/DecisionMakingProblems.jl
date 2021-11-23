@@ -9,20 +9,22 @@ using Parameters
 using Statistics
 using Printf
 
+export 
+    MDP, HexWorld, StraightLineHexWorld, TwentyFortyEight, CartPole, MountainCar, LQR, CollisionAvoidance,
+    POMDP, DiscretePOMDP, CryingBaby, MachineReplacement, Catch,
+    SimpleGame, PrisonersDilemma, RockPaperScissors, Travelers,
+    MG, PredatorPreyHexWorld, CirclePredatorPreyHexWorld,
+    POMG, MultiCaregiverCryingBaby,
+    DecPOMDP, CollaborativePredatorPreyHexWorld, SimpleCollaborativePredatorPreyHexWorld, CircleCollaborativePredatorPreyHexWorld
+
 import Base: <, ==, rand, vec
 
 include("support_code.jl")
 
-# include("search/search.jl")
-# include("search/hex_world.jl")
-
 include("mdp/mdp.jl")
 include("mdp/discrete_mdp.jl")
-# include("mdp/sliding_tile_puzzle.jl")
-# include("mdp/gridworld.jl
 include("mdp/2048.jl")
 include("mdp/hexworld.jl")
-# include("mdp/you_get_what_you_bet.jl")
 include("mdp/simple_lqr.jl")
 include("mdp/cart_pole.jl")
 include("mdp/mountain_car.jl")
@@ -30,7 +32,6 @@ include("mdp/collision_avoidance.jl")
 
 include("pomdp/pomdp.jl")
 include("pomdp/discrete_pomdp.jl")
-# include("pomdp/spelunker_joe.jl")
 include("pomdp/crying_baby.jl")
 include("pomdp/machine_replacement.jl")
 include("pomdp/catch.jl")
@@ -48,7 +49,5 @@ include("pomg/multicaregiver.jl")
 
 include("decpomdp/decpomdp.jl")
 include("decpomdp/collab_predator_prey.jl")
-
-
 
 end # module

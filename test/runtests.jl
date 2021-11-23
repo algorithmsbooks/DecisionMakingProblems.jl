@@ -1,20 +1,16 @@
 using DecisionMakingProblems
-# using PGFPlots
 using Test
 using Random
 using LinearAlgebra
 using GridInterpolations
 
-# @assert success(`lualatex -v`)
-# using NBInclude
-# @nbinclude(joinpath(dirname(@__FILE__), "..", "doc", "PGFPlots.ipynb"))
 const p = DecisionMakingProblems
 
 # MDP
 
 @testset "2048.jl" begin
-    m = p.TwentyFortyEight()
-    mdp = p.MDP(m)
+    m = TwentyFortyEight()
+    mdp = MDP(m)
     @test length(mdp.𝒜) == 4
     @test mdp.γ == 1.0
     init_state = p.initial_board()
@@ -24,8 +20,8 @@ const p = DecisionMakingProblems
 end
 
 @testset "cart_pole.jl" begin
-    # m = p.CartPole(1.0, 10.0, 1.0, 1.0, 0.1, 9.8, 0.02, 4.8, deg2rad(24))
-    m = p.CartPole()
+    # m = CartPole(1.0, 10.0, 1.0, 1.0, 0.1, 9.8, 0.02, 4.8, deg2rad(24))
+    m = CartPole()
     @test p.n_actions(m) == 2
     @test p.discount(m) == 1.0
     @test p.ordered_actions(m) == 1:2
@@ -36,11 +32,11 @@ end
     @test !p.is_terminal(m, state)
     @test min_state <= p.vec(p.cart_pole_transition(m, state, rand(1:2))) <= max_state
     @test p.reward(m, state, rand(1:2)) in [0.0, 1.0]
-    mdp = p.MDP(m)
+    mdp = MDP(m)
 end
 
 @testset "collision_avoidance.jl" begin
-    m = p.CollisionAvoidanceMDP()
+    m = CollisionAvoidance()
     distrib = p.CollisionAvoidanceStateDistribution()
     s = p.rand(distrib)
     simple_pol = p.SimpleCollisionAvoidancePolicy()
@@ -49,11 +45,11 @@ end
     @test p.is_terminal(m, s) == (p.vec(s)[4] < 0.0)
     @test p.reward(m, rand(p.transition(m, s, optimal_pol(s))), rand(m.𝒜)) <= 0
     policy = p.CollisionAvoidanceValueFunction(m, simple_pol)
-    mdp = p.MDP(m)
+    mdp = MDP(m)
 end
 
 @testset "hexworld.jl" begin
-    m = p.HexWorld()
+    m = HexWorld()
     hexes = m.hexes
     @test p.n_states(m) == length(hexes) + 1 && p.ordered_states(m) == 1:length(hexes) + 1
     @test p.n_actions(m) == 6 && p.ordered_actions(m) == 1:6
@@ -69,19 +65,19 @@ end
     @test p.generate_sr(m, state, action)[1] in p.ordered_states(m) && p.generate_sr(m, state, action)[2] <= 10
     @test p.generate_start_state(m) in p.ordered_states(m)
     @test p.hex_distance(rand(hexes), rand(hexes)) >= 0
-    mdp = p.MDP(m)
+    mdp = MDP(m)
 end
 @testset "simple_lqr.jl" begin
-    m = p.LQR()
+    m = LQR()
     @test p.discount(m) == 1.0
     state = p.generate_start_state(m)
     @test -10 <= rand(p.transition(m, state, rand())) <= 10
     @test p.reward(m, state, rand()) <= 0
-    mdp = p.MDP(m)
+    mdp = MDP(m)
 end
 
 @testset "mountain_car.jl" begin
-    m = p.MountainCar()
+    m = MountainCar()
     @test p.n_actions(m) == 3 && p.ordered_actions(m) == [1, 2, 3]
     @test p.discount(m) == 1.0
     state_min = [-1.2, -0.07]
@@ -90,15 +86,14 @@ end
     @test all(state_min <= start_state <= state_max)
     @test all(state_min <= p.mountain_car_transition(start_state, 1) <= state_max)
     @test p.reward(m, start_state, 1) <= 0
-    mdp = p.MDP(m)
+    mdp = MDP(m)
 end
 
 
 # POMDP
 
 @testset "crying_baby.jl" begin
-    # m = p.CryingBaby(-10.0, -5.0, -0.5, 0.1, 0.8, 0.1, 0.9, 0.9)
-    m = p.CryingBaby()
+    m = CryingBaby()
     @test p.n_states(m) == 2 && p.ordered_states(m) == [1, 2]
     @test p.n_actions(m) == 3 && p.ordered_actions(m) == [1, 2, 3]
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == [true, false]
@@ -111,9 +106,8 @@ end
 end
 
 @testset "machine_replacement.jl" begin
-    # m = p.generate_machine_replacement_pomdp(1.0)
-    mdp = p.MachineReplacement()
-    m = p.DiscretePOMDP(mdp)
+    mdp = MachineReplacement()
+    m = DiscretePOMDP(mdp)
     @test p.n_states(m) == 3 && p.ordered_states(m) == 1:3
     @test p.n_actions(m) == 4 && p.ordered_actions(m) == 1:4
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == 1:2
@@ -125,9 +119,8 @@ end
 end
 
 @testset "catch.jl" begin
-    # m = p.generate_catch_pomdp(0.9)
-    mdp = p.Catch()
-    m = p.DiscretePOMDP(mdp)
+    mdp = Catch()
+    m = DiscretePOMDP(mdp)
     @test p.n_states(m) == 4 && p.ordered_states(m) == 1:4
     @test p.n_actions(m) == 10 && p.ordered_actions(m) == 1:10
     @test p.n_observations(m) == 2 && p.ordered_observations(m) == 1:2
@@ -142,7 +135,7 @@ end
 # Simple Game
 
 @testset "prisoners_dilemma.jl" begin
-    m = p.PrisonersDilemma()
+    m = PrisonersDilemma()
     @test p.n_agents(m) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 2 && length(p.ordered_joint_actions(m)) == 4
     @test p.n_actions(m, rand(1:2)) == 2 && p.n_joint_actions(m) == 4
@@ -152,7 +145,7 @@ end
 end
 
 @testset "rock_paper_scissors.jl" begin
-    m = p.RockPaperScissors()
+    m = RockPaperScissors()
     @test p.n_agents(m) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 3 && length(p.ordered_joint_actions(m)) == 9
     @test p.n_actions(m, rand(1:2)) == 3 && p.n_joint_actions(m) == 9
@@ -162,7 +155,7 @@ end
 end
 
 @testset "travelers.jl" begin
-    m = p.Travelers()
+    m = Travelers()
     @test p.n_agents(m) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 99 && length(p.ordered_joint_actions(m)) == 99^2
     @test p.n_actions(m, rand(1:2)) == 99 && p.n_joint_actions(m) == 99^2
@@ -175,7 +168,7 @@ end
 # Markov Game
 
 @testset "predator_prey.jl" begin
-    m = p.PredatorPreyHexWorld()
+    m = PredatorPreyHexWorld()
     hexes = m.hexes
     @test p.n_agents(m) == 2
     @test length(p.ordered_states(m, rand(1:2))) == length(hexes) && length(p.ordered_states(m)) == length(hexes)^2
@@ -191,7 +184,7 @@ end
 # POMG
 
 @testset "multicaregiver.jl" begin
-    m = p.MultiCaregiverCryingBaby()
+    m = MultiCaregiverCryingBaby()
     @test p.n_agents(m) == 2
     @test length(p.ordered_states(m)) == 2
     @test length(p.ordered_actions(m, rand(1:2))) == 3 && length(p.ordered_joint_actions(m)) == 9
@@ -210,7 +203,7 @@ end
 # DecPOMDP
 
 @testset "collab_predator_prey.jl" begin
-    m = p.CollaborativePredatorPreyHexWorld()
+    m = CollaborativePredatorPreyHexWorld()
     hexes = m.hexes
     @test p.n_agents(m) == 2
     @test length(p.ordered_states(m, rand(1:2))) == length(hexes) && length(p.ordered_states(m)) == length(hexes)^3
