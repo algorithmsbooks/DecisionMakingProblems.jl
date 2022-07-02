@@ -9,7 +9,7 @@ using Parameters
 using Statistics
 using Printf
 
-export 
+export
     MDP, HexWorld, StraightLineHexWorld, TwentyFortyEight, CartPole, MountainCar, LQR, CollisionAvoidance,
     POMDP, DiscretePOMDP, CryingBaby, MachineReplacement, Catch,
     SimpleGame, PrisonersDilemma, RockPaperScissors, Travelers,
@@ -18,6 +18,7 @@ export
     DecPOMDP, CollaborativePredatorPreyHexWorld, SimpleCollaborativePredatorPreyHexWorld, CircleCollaborativePredatorPreyHexWorld
 
 import Base: <, ==, rand, vec
+import Distributions: pdf
 
 include("support_code.jl")
 
