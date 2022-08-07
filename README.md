@@ -1,7 +1,8 @@
 # DecisionMakingProblems
 
-[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://algorithmsbooks.github.io/DecisionMakingProblems.jl/)
 [![Build Status](https://github.com/algorithmsbooks/DecisionMakingProblems.jl/workflows/CI/badge.svg)](https://github.com/algorithmsbooks/DecisionMakingProblems.jl/actions)
+[![codecov](https://codecov.io/gh/algorithmsbooks/DecisionMakingProblems.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/algorithmsbooks/DecisionMakingProblems.jl)
+[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](https://algorithmsbooks.github.io/DecisionMakingProblems.jl/)
 
 This package contains various decision problem environments from [Algorithms for Decision Making](https://algorithmsbook.com/) by Mykel Kochenderfer, Tim Wheeler and Kyle Wray.
 
