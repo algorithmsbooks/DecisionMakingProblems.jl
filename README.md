@@ -16,7 +16,7 @@ Start Julia and run the following command:
 
 ## Usage
 
-To use the DecisionMakingProblems module, begin your code with
+To use the DecisionMakingProblems module, begin your code with:
 
 ```julia
 using DecisionMakingProblems
